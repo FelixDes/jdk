@@ -81,8 +81,8 @@ final class Inet6AddressImpl implements InetAddressImpl {
                 inetaddr = it.nextElement();
                 if (inetaddr.getClass().isInstance(addr)) {
                     ifaddr = inetaddr.getAddress();
-                    if (inetaddr instanceof Inet6Address) {
-                        netif_scope = ((Inet6Address) inetaddr).getScopeId();
+                    if (inetaddr instanceof Inet6Address inet6Address) {
+                        netif_scope = inet6Address.getScopeId();
                     }
                     break;
                 }
@@ -93,8 +93,8 @@ final class Inet6AddressImpl implements InetAddressImpl {
                 return false;
             }
         }
-        if (addr instanceof Inet6Address)
-            scope = ((Inet6Address) addr).getScopeId();
+        if (addr instanceof Inet6Address inet6Address)
+            scope = inet6Address.getScopeId();
         return isReachable0(addr.getAddress(), scope, timeout, ifaddr, ttl, netif_scope);
     }
 

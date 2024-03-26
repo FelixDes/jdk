@@ -229,8 +229,8 @@ public class PlatformLogger {
 
 
         public static Bridge convert(System.Logger logger) {
-            if (logger instanceof PlatformLogger.Bridge) {
-                return (Bridge) logger;
+            if (logger instanceof PlatformLogger.Bridge bridge) {
+                return bridge;
             } else {
                 return new LoggerWrapper<>(logger);
             }
@@ -261,8 +261,8 @@ public class PlatformLogger {
         }
 
         public static LoggerConfiguration getLoggerConfiguration(PlatformLogger.Bridge logger) {
-            if (logger instanceof PlatformLogger.ConfigurableBridge) {
-                return ((ConfigurableBridge) logger).getLoggerConfiguration();
+            if (logger instanceof PlatformLogger.ConfigurableBridge configurableBridge) {
+                return configurableBridge.getLoggerConfiguration();
             } else {
                 return null;
             }

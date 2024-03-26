@@ -4160,27 +4160,18 @@ public class ObjectInputStream
      * Method for cloning arrays in case of using unsharing reading
      */
     private static Object cloneArray(Object array) {
-        if (array instanceof Object[]) {
-            return ((Object[]) array).clone();
-        } else if (array instanceof boolean[]) {
-            return ((boolean[]) array).clone();
-        } else if (array instanceof byte[]) {
-            return ((byte[]) array).clone();
-        } else if (array instanceof char[]) {
-            return ((char[]) array).clone();
-        } else if (array instanceof double[]) {
-            return ((double[]) array).clone();
-        } else if (array instanceof float[]) {
-            return ((float[]) array).clone();
-        } else if (array instanceof int[]) {
-            return ((int[]) array).clone();
-        } else if (array instanceof long[]) {
-            return ((long[]) array).clone();
-        } else if (array instanceof short[]) {
-            return ((short[]) array).clone();
-        } else {
-            throw new AssertionError();
-        }
+        return switch (array) {
+            case Object[] objects -> objects.clone();
+            case boolean[] booleans -> booleans.clone();
+            case byte[] bytes -> bytes.clone();
+            case char[] chars -> chars.clone();
+            case double[] doubles -> doubles.clone();
+            case float[] floats -> floats.clone();
+            case int[] ints -> ints.clone();
+            case long[] longs -> longs.clone();
+            case short[] shorts -> shorts.clone();
+            case null, default -> throw new AssertionError();
+        };
     }
 
     static {

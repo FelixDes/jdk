@@ -82,8 +82,8 @@ public final class TimeZoneNameUtility {
         // in order to avoid per-ID retrieval.
         LocaleProviderAdapter adapter = LocaleProviderAdapter.getAdapter(TimeZoneNameProvider.class, locale);
         TimeZoneNameProvider provider = adapter.getTimeZoneNameProvider();
-        if (provider instanceof TimeZoneNameProviderImpl) {
-            String[][] zoneStrings = ((TimeZoneNameProviderImpl)provider).getZoneStrings(locale);
+        if (provider instanceof TimeZoneNameProviderImpl timeZoneNameProvider) {
+            String[][] zoneStrings = timeZoneNameProvider.getZoneStrings(locale);
 
             if (zoneStrings.length == 0 && locale.equals(Locale.ROOT)) {
                 // Unlike other *Name provider, zoneStrings search won't do the fallback

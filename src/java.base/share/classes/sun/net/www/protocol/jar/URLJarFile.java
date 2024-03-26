@@ -100,8 +100,8 @@ public class URLJarFile extends JarFile {
     public ZipEntry getEntry(String name) {
         ZipEntry ze = super.getEntry(name);
         if (ze != null) {
-            if (ze instanceof JarEntry)
-                return new URLJarFileEntry((JarEntry)ze);
+            if (ze instanceof JarEntry jarEntry)
+                return new URLJarFileEntry(jarEntry);
             else
                 throw new InternalError(super.getClass() +
                                         " returned unexpected entry type " +

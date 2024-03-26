@@ -1028,19 +1028,13 @@ public class SimpleDateFormat extends DateFormat {
         CharacterIteratorFieldDelegate delegate = new
                          CharacterIteratorFieldDelegate();
 
-        if (obj instanceof Date) {
-            format((Date)obj, sb, delegate);
-        }
-        else if (obj instanceof Number) {
-            format(new Date(((Number)obj).longValue()), sb, delegate);
-        }
-        else if (obj == null) {
-            throw new NullPointerException(
-                   "formatToCharacterIterator must be passed non-null object");
-        }
-        else {
-            throw new IllegalArgumentException(
-                             "Cannot format given Object as a Date");
+        switch (obj) {
+            case Date date -> format(date, sb, delegate);
+            case Number number -> format(new Date(number.longValue()), sb, delegate);
+            case null -> throw new NullPointerException(
+                    "formatToCharacterIterator must be passed non-null object");
+            default -> throw new IllegalArgumentException(
+                    "Cannot format given Object as a Date");
         }
         return delegate.getIterator(sb.toString());
     }
@@ -2543,9 +2537,9 @@ public class SimpleDateFormat extends DateFormat {
      * as necessary.
      */
     private void checkNegativeNumberExpression() {
-        if ((numberFormat instanceof DecimalFormat) &&
+        if ((numberFormat instanceof DecimalFormat decimalFormat) &&
             !numberFormat.equals(originalNumberFormat)) {
-            String numberPattern = ((DecimalFormat)numberFormat).toPattern();
+            String numberPattern = decimalFormat.toPattern();
             if (!numberPattern.equals(originalNumberPattern)) {
                 hasFollowingMinusSign = false;
 
@@ -2557,12 +2551,12 @@ public class SimpleDateFormat extends DateFormat {
                     if ((minusIndex > numberPattern.lastIndexOf('0')) &&
                         (minusIndex > numberPattern.lastIndexOf('#'))) {
                         hasFollowingMinusSign = true;
-                        minusSign = ((DecimalFormat)numberFormat).getDecimalFormatSymbols().getMinusSign();
+                        minusSign = decimalFormat.getDecimalFormatSymbols().getMinusSign();
                     }
                 }
                 originalNumberPattern = numberPattern;
             }
-            originalNumberFormat = numberFormat;
+            originalNumberFormat = decimalFormat;
         }
     }
 

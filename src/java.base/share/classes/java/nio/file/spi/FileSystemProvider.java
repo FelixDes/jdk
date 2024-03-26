@@ -418,8 +418,8 @@ public abstract class FileSystemProvider {
                 throw new UnsupportedOperationException("'" + opt + "' not allowed");
         }
         ReadableByteChannel rbc = Files.newByteChannel(path, options);
-        if (rbc instanceof FileChannelImpl) {
-            ((FileChannelImpl) rbc).setUninterruptible();
+        if (rbc instanceof FileChannelImpl fileChannel) {
+            fileChannel.setUninterruptible();
         }
         return Channels.newInputStream(rbc);
     }
@@ -480,8 +480,8 @@ public abstract class FileSystemProvider {
             opts.add(StandardOpenOption.WRITE);
         }
         WritableByteChannel wbc = newByteChannel(path, opts);
-        if (wbc instanceof FileChannelImpl) {
-            ((FileChannelImpl) wbc).setUninterruptible();
+        if (wbc instanceof FileChannelImpl fileChannel) {
+            fileChannel.setUninterruptible();
         }
         return Channels.newOutputStream(wbc);
     }

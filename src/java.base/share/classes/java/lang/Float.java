@@ -842,8 +842,8 @@ public final class Float extends Number
      * @jls 15.21.1 Numerical Equality Operators == and !=
      */
     public boolean equals(Object obj) {
-        return (obj instanceof Float)
-               && (floatToIntBits(((Float)obj).value) == floatToIntBits(value));
+        return (obj instanceof Float floatObj)
+               && (floatToIntBits(floatObj.value) == floatToIntBits(value));
     }
 
     /**

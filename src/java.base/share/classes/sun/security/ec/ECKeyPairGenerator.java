@@ -88,15 +88,14 @@ public final class ECKeyPairGenerator extends KeyPairGeneratorSpi {
 
         ECParameterSpec ecSpec = null;
 
-        if (params instanceof ECParameterSpec) {
-            ECParameterSpec ecParams = (ECParameterSpec) params;
+        if (params instanceof ECParameterSpec ecParams) {
             ecSpec = ECUtil.getECParameterSpec(ecParams);
             if (ecSpec == null) {
                 throw new InvalidAlgorithmParameterException(
                     "Curve not supported: " + params);
             }
-        } else if (params instanceof ECGenParameterSpec) {
-            String name = ((ECGenParameterSpec) params).getName();
+        } else if (params instanceof ECGenParameterSpec ecGenParameterSpec) {
+            String name = ecGenParameterSpec.getName();
             ecSpec = ECUtil.getECParameterSpec(name);
             if (ecSpec == null) {
                 throw new InvalidAlgorithmParameterException(

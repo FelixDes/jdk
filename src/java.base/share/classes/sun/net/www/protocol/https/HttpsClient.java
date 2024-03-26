@@ -460,8 +460,8 @@ final class HttpsClient extends HttpClient
                                                         host, port, true);
                 } else {
                     s = (SSLSocket)serverSocket;
-                    if (s instanceof SSLSocketImpl) {
-                        ((SSLSocketImpl)s).setHost(host);
+                    if (s instanceof SSLSocketImpl sslSocket) {
+                        sslSocket.setHost(host);
                     }
                 }
             } catch (IOException ex) {

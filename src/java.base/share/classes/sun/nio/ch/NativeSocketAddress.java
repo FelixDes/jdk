@@ -169,8 +169,8 @@ class NativeSocketAddress {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof NativeSocketAddress) {
-            return mismatch((NativeSocketAddress) other) < 0;
+        if (other instanceof NativeSocketAddress nativeSocketAddress) {
+            return mismatch(nativeSocketAddress) < 0;
         } else {
             return false;
         }

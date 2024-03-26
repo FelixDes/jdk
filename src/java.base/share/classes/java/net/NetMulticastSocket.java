@@ -462,8 +462,8 @@ final class NetMulticastSocket extends MulticastSocket {
             return 0;
         Object o = getImpl().getOption(SocketOptions.SO_TIMEOUT);
         /* extra type safety */
-        if (o instanceof Integer) {
-            return ((Integer) o).intValue();
+        if (o instanceof Integer i) {
+            return i.intValue();
         } else {
             return 0;
         }
@@ -485,8 +485,8 @@ final class NetMulticastSocket extends MulticastSocket {
             throw new SocketException("Socket is closed");
         int result = 0;
         Object o = getImpl().getOption(SocketOptions.SO_SNDBUF);
-        if (o instanceof Integer) {
-            result = ((Integer) o).intValue();
+        if (o instanceof Integer i) {
+            result = i.intValue();
         }
         return result;
     }
@@ -507,8 +507,8 @@ final class NetMulticastSocket extends MulticastSocket {
             throw new SocketException("Socket is closed");
         int result = 0;
         Object o = getImpl().getOption(SocketOptions.SO_RCVBUF);
-        if (o instanceof Integer) {
-            result = ((Integer) o).intValue();
+        if (o instanceof Integer integer) {
+            result = integer.intValue();
         }
         return result;
     }

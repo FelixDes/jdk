@@ -80,8 +80,7 @@ public abstract class TimeZoneNamesBundle extends OpenListResourceBundle {
     @Override
     public Object handleGetObject(String key) {
         Object val = super.handleGetObject(key);
-        if (val instanceof String[]) {
-            String[] contents = (String[]) val;
+        if (val instanceof String[] contents) {
             int clen = contents.length;
             String[] tmpobj = new String[7];
             tmpobj[0] = key;

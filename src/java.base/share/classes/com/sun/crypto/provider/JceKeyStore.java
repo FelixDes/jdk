@@ -130,8 +130,8 @@ public final class JceKeyStore extends KeyStoreSpi {
 
         KeyProtector keyProtector = new KeyProtector(password);
 
-        if (entry instanceof PrivateKeyEntry) {
-            byte[] encrBytes = ((PrivateKeyEntry)entry).protectedKey;
+        if (entry instanceof PrivateKeyEntry privateKeyEntry) {
+            byte[] encrBytes = privateKeyEntry.protectedKey;
             EncryptedPrivateKeyInfo encrInfo;
             try {
                 encrInfo = new EncryptedPrivateKeyInfo(encrBytes);
@@ -166,9 +166,9 @@ public final class JceKeyStore extends KeyStoreSpi {
 
         Object entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
 
-        if ((entry instanceof PrivateKeyEntry)
-            && (((PrivateKeyEntry)entry).chain != null)) {
-            chain = ((PrivateKeyEntry)entry).chain.clone();
+        if ((entry instanceof PrivateKeyEntry privateKeyEntry)
+                && (privateKeyEntry.chain != null)) {
+            chain = privateKeyEntry.chain.clone();
         }
 
         return chain;
@@ -195,11 +195,11 @@ public final class JceKeyStore extends KeyStoreSpi {
         Object entry = entries.get(alias.toLowerCase(Locale.ENGLISH));
 
         if (entry != null) {
-            if (entry instanceof TrustedCertEntry) {
-                cert = ((TrustedCertEntry)entry).cert;
-            } else if ((entry instanceof PrivateKeyEntry) &&
-                       (((PrivateKeyEntry)entry).chain != null)) {
-                cert = ((PrivateKeyEntry)entry).chain[0];
+            if (entry instanceof TrustedCertEntry trustedCertEntry) {
+                cert = trustedCertEntry.cert;
+            } else if ((entry instanceof PrivateKeyEntry privateKeyEntry) &&
+                       (privateKeyEntry.chain != null)) {
+                cert = privateKeyEntry.chain[0];
             }
         }
 
@@ -222,10 +222,10 @@ public final class JceKeyStore extends KeyStoreSpi {
         if (entry != null) {
             // We have to create a new instance of java.util.Date because
             // dates are not immutable
-            if (entry instanceof TrustedCertEntry) {
-                date = new Date(((TrustedCertEntry)entry).date.getTime());
-            } else if (entry instanceof PrivateKeyEntry) {
-                date = new Date(((PrivateKeyEntry)entry).date.getTime());
+            if (entry instanceof TrustedCertEntry trustedCertEntry) {
+                date = new Date(trustedCertEntry.date.getTime());
+            } else if (entry instanceof PrivateKeyEntry privateKeyEntry) {
+                date = new Date(privateKeyEntry.date.getTime());
             } else {
                 date = new Date(((SecretKeyEntry)entry).date.getTime());
             }
@@ -264,12 +264,12 @@ public final class JceKeyStore extends KeyStoreSpi {
             try {
                 KeyProtector keyProtector = new KeyProtector(password);
 
-                if (key instanceof PrivateKey) {
+                if (key instanceof PrivateKey privateKey) {
                     PrivateKeyEntry entry = new PrivateKeyEntry();
                     entry.date = new Date();
 
                     // protect the private key
-                    entry.protectedKey = keyProtector.protect((PrivateKey)key);
+                    entry.protectedKey = keyProtector.protect(privateKey);
 
                     // clone the chain
                     if ((chain != null) &&
@@ -479,11 +479,11 @@ public final class JceKeyStore extends KeyStoreSpi {
         while (e.hasMoreElements()) {
             String alias = e.nextElement();
             Object entry = entries.get(alias);
-            if (entry instanceof TrustedCertEntry) {
-                certElem = ((TrustedCertEntry)entry).cert;
-            } else if ((entry instanceof PrivateKeyEntry) &&
-                       (((PrivateKeyEntry)entry).chain != null)) {
-                certElem = ((PrivateKeyEntry)entry).chain[0];
+            if (entry instanceof TrustedCertEntry trustedCertEntry) {
+                certElem = trustedCertEntry.cert;
+            } else if ((entry instanceof PrivateKeyEntry privateKeyEntry) &&
+                       (privateKeyEntry.chain != null)) {
+                certElem = privateKeyEntry.chain[0];
             } else {
                 continue;
             }
@@ -579,9 +579,7 @@ public final class JceKeyStore extends KeyStoreSpi {
                     String alias = e.nextElement();
                     Object entry = entries.get(alias);
 
-                    if (entry instanceof PrivateKeyEntry) {
-
-                        PrivateKeyEntry pentry = (PrivateKeyEntry)entry;
+                    if (entry instanceof PrivateKeyEntry pentry) {
 
                         // write PrivateKeyEntry tag
                         dos.writeInt(1);
@@ -611,7 +609,7 @@ public final class JceKeyStore extends KeyStoreSpi {
                             dos.write(encoded);
                         }
 
-                    } else if (entry instanceof TrustedCertEntry) {
+                    } else if (entry instanceof TrustedCertEntry trustedCertEntry) {
 
                         // write TrustedCertEntry tag
                         dos.writeInt(2);
@@ -620,11 +618,11 @@ public final class JceKeyStore extends KeyStoreSpi {
                         dos.writeUTF(alias);
 
                         // write the (entry creation) date
-                        dos.writeLong(((TrustedCertEntry)entry).date.getTime());
+                        dos.writeLong(trustedCertEntry.date.getTime());
 
                         // write the trusted certificate
-                        encoded = ((TrustedCertEntry)entry).cert.getEncoded();
-                        dos.writeUTF(((TrustedCertEntry)entry).cert.getType());
+                        encoded = trustedCertEntry.cert.getEncoded();
+                        dos.writeUTF(trustedCertEntry.cert.getType());
                         dos.writeInt(encoded.length);
                         dos.write(encoded);
 
@@ -925,8 +923,8 @@ public final class JceKeyStore extends KeyStoreSpi {
     @Override
     public boolean engineProbe(InputStream stream) throws IOException {
         DataInputStream dataStream;
-        if (stream instanceof DataInputStream) {
-            dataStream = (DataInputStream)stream;
+        if (stream instanceof DataInputStream dataInputStream) {
+            dataStream = dataInputStream;
         } else {
             dataStream = new DataInputStream(stream);
         }

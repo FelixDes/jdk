@@ -57,10 +57,10 @@ public final class SocketExceptions {
         if (!enhancedExceptionText || addr == null) {
             return e;
         }
-        if (addr instanceof UnixDomainSocketAddress) {
-            return ofUnixDomain(e, (UnixDomainSocketAddress)addr);
-        } else if (addr instanceof InetSocketAddress) {
-            return ofInet(e, (InetSocketAddress)addr);
+        if (addr instanceof UnixDomainSocketAddress unixDomainSocketAddress) {
+            return ofUnixDomain(e, unixDomainSocketAddress);
+        } else if (addr instanceof InetSocketAddress inetSocketAddress) {
+            return ofInet(e, inetSocketAddress);
         } else {
             return e;
         }

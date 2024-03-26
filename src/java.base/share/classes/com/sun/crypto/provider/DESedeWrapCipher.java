@@ -220,8 +220,8 @@ public final class DESedeWrapCipher extends CipherSpi {
                 }
                 random.nextBytes(iv);
             }
-            else if (params instanceof IvParameterSpec) {
-                iv = ((IvParameterSpec) params).getIV();
+            else if (params instanceof IvParameterSpec ivParameterSpec) {
+                iv = ivParameterSpec.getIV();
             } else {
                 throw new InvalidAlgorithmParameterException
                     ("Wrong parameter type: IV expected");

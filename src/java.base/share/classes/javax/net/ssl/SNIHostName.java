@@ -222,8 +222,8 @@ public final class SNIHostName extends SNIServerName {
             return true;
         }
 
-        if (other instanceof SNIHostName) {
-            return hostname.equalsIgnoreCase(((SNIHostName)other).hostname);
+        if (other instanceof SNIHostName sniHostName) {
+            return hostname.equalsIgnoreCase(sniHostName.hostname);
         }
 
         return false;

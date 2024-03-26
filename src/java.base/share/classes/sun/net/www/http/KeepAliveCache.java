@@ -389,7 +389,7 @@ class KeepAliveKey {
      */
     @Override
     public boolean equals(Object obj) {
-        if ((obj instanceof KeepAliveKey) == false)
+        if (!(obj instanceof KeepAliveKey))
             return false;
         KeepAliveKey kae = (KeepAliveKey)obj;
         return host.equals(kae.host)

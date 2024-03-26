@@ -2689,22 +2689,18 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
             if (!needToCheck)
                 return;
             if ((validateProxy && currentProxyCredentials != null) &&
-                (currentProxyCredentials instanceof DigestAuthentication)) {
+                (currentProxyCredentials instanceof DigestAuthentication da)) {
                 String raw = responses.findValue ("Proxy-Authentication-Info");
                 if (inClose || (raw != null)) {
-                    DigestAuthentication da = (DigestAuthentication)
-                        currentProxyCredentials;
                     da.checkResponse (raw, method, getRequestURI());
                     currentProxyCredentials.disposeContext();
                     currentProxyCredentials = null;
                 }
             }
             if ((validateServer && currentServerCredentials != null) &&
-                (currentServerCredentials instanceof DigestAuthentication)) {
+                (currentServerCredentials instanceof DigestAuthentication da)) {
                 String raw = responses.findValue ("Authentication-Info");
                 if (inClose || (raw != null)) {
-                    DigestAuthentication da = (DigestAuthentication)
-                        currentServerCredentials;
                     da.checkResponse (raw, method, url);
                     currentServerCredentials.disposeContext();
                     currentServerCredentials = null;
@@ -3788,12 +3784,12 @@ public class HttpURLConnection extends java.net.HttpURLConnection {
             if (error) {
                 throw errorExcp;
             }
-            if (out instanceof PrintStream) {
-                if (((PrintStream) out).checkError()) {
+            if (out instanceof PrintStream printStream) {
+                if (printStream.checkError()) {
                     throw new IOException("Error writing request body to server");
                 }
-            } else if (out instanceof ChunkedOutputStream) {
-                if (((ChunkedOutputStream) out).checkError()) {
+            } else if (out instanceof ChunkedOutputStream chunkedOutputStream) {
+                if (chunkedOutputStream.checkError()) {
                     throw new IOException("Error writing request body to server");
                 }
             }

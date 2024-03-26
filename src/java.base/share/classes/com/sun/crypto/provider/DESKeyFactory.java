@@ -64,15 +64,12 @@ public final class DESKeyFactory extends SecretKeyFactorySpi {
         throws InvalidKeySpecException {
 
         try {
-            byte[] encoded;
-            if (keySpec instanceof DESKeySpec) {
-                encoded = ((DESKeySpec)keySpec).getKey();
-            } else if (keySpec instanceof SecretKeySpec) {
-                encoded = ((SecretKeySpec)keySpec).getEncoded();
-            } else {
-                throw new InvalidKeySpecException(
+            byte[] encoded = switch (keySpec) {
+                case DESKeySpec desKeySpec -> desKeySpec.getKey();
+                case SecretKeySpec secretKeySpec -> secretKeySpec.getEncoded();
+                case null, default -> throw new InvalidKeySpecException(
                         "Inappropriate key specification");
-            }
+            };
             try {
                 return new DESKey(encoded);
             } finally {

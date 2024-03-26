@@ -1042,8 +1042,8 @@ public class ServerSocket implements java.io.Closeable {
             throw new SocketException("Socket is closed");
         int result = 0;
         Object o = getImpl().getOption(SocketOptions.SO_RCVBUF);
-        if (o instanceof Integer) {
-            result = ((Integer)o).intValue();
+        if (o instanceof Integer i) {
+            result = i.intValue();
         }
         return result;
     }

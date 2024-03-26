@@ -133,9 +133,9 @@ class Invoker {
         // clear thread locals when in default thread pool
         if (System.getSecurityManager() != null) {
             Thread me = Thread.currentThread();
-            if (me instanceof InnocuousThread) {
+            if (me instanceof InnocuousThread innocuousThread) {
                 GroupAndInvokeCount thisGroupAndInvokeCount = myGroupAndInvokeCount.get();
-                ((InnocuousThread)me).eraseThreadLocals();
+                innocuousThread.eraseThreadLocals();
                 if (thisGroupAndInvokeCount != null) {
                     myGroupAndInvokeCount.set(thisGroupAndInvokeCount);
                 }

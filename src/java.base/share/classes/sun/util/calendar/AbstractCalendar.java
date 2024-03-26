@@ -114,8 +114,8 @@ public abstract sealed class AbstractCalendar extends CalendarSystem
         TimeZone zi = date.getZone();
         if (zi != null) {
             int[] offsets = new int[2];
-            if (zi instanceof ZoneInfo) {
-                zoneOffset = ((ZoneInfo)zi).getOffsets(millis, offsets);
+            if (zi instanceof ZoneInfo zoneInfo) {
+                zoneOffset = zoneInfo.getOffsets(millis, offsets);
             } else {
                 zoneOffset = zi.getOffset(millis);
                 offsets[0] = zi.getRawOffset();

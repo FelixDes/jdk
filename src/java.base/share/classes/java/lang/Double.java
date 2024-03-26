@@ -1210,8 +1210,8 @@ public final class Double extends Number
      * @jls 15.21.1 Numerical Equality Operators == and !=
      */
     public boolean equals(Object obj) {
-        return (obj instanceof Double)
-               && (doubleToLongBits(((Double)obj).value) ==
+        return (obj instanceof Double doubleObj)
+               && (doubleToLongBits(doubleObj.value) ==
                       doubleToLongBits(value));
     }
 

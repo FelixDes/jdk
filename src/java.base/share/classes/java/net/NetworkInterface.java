@@ -525,8 +525,8 @@ public final class NetworkInterface {
             return null;
         }
         for (InetAddress addr : addrs) {
-            if (addr instanceof Inet4Address) {
-                return getMacAddr0(((Inet4Address)addr).getAddress(), name, index);
+            if (addr instanceof Inet4Address inet4Address) {
+                return getMacAddr0(inet4Address.getAddress(), name, index);
             }
         }
         return getMacAddr0(null, name, index);

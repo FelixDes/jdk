@@ -286,8 +286,8 @@ public final class OffsetTime
      * @throws DateTimeException if unable to convert to an {@code OffsetTime}
      */
     public static OffsetTime from(TemporalAccessor temporal) {
-        if (temporal instanceof OffsetTime) {
-            return (OffsetTime) temporal;
+        if (temporal instanceof OffsetTime offsetTime) {
+            return offsetTime;
         }
         try {
             LocalTime time = LocalTime.from(temporal);

@@ -129,8 +129,8 @@ public class ThreadPool {
         if (executor == null)
             throw new NullPointerException("'executor' is null");
         // attempt to check if cached thread pool
-        if (executor instanceof ThreadPoolExecutor) {
-            int max = ((ThreadPoolExecutor)executor).getMaximumPoolSize();
+        if (executor instanceof ThreadPoolExecutor threadPoolExecutor) {
+            int max = threadPoolExecutor.getMaximumPoolSize();
             if (max == Integer.MAX_VALUE) {
                 if (initialSize < 0) {
                     initialSize = Runtime.getRuntime().availableProcessors();

@@ -1590,12 +1590,10 @@ public final class ObjectStreamClass implements Serializable {
      * wrapped inside an IOException).
      */
     private static void throwMiscException(Throwable th) throws IOException {
-        if (th instanceof RuntimeException) {
-            throw (RuntimeException) th;
-        } else if (th instanceof Error) {
-            throw (Error) th;
-        } else {
-            throw new IOException("unexpected exception type", th);
+        switch (th) {
+            case RuntimeException runtimeException -> throw runtimeException;
+            case Error error -> throw error;
+            default -> throw new IOException("unexpected exception type", th);
         }
     }
 

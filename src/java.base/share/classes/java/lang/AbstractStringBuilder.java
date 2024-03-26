@@ -622,16 +622,12 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence
     // Documentation in subclasses because of synchro difference
     @Override
     public AbstractStringBuilder append(CharSequence s) {
-        if (s == null) {
-            return appendNull();
-        }
-        if (s instanceof String) {
-            return this.append((String)s);
-        }
-        if (s instanceof AbstractStringBuilder) {
-            return this.append((AbstractStringBuilder)s);
-        }
-        return this.append(s, 0, s.length());
+        return switch (s) {
+            case null -> appendNull();
+            case String string -> this.append(string);
+            case AbstractStringBuilder abstractStringBuilder -> this.append(abstractStringBuilder);
+            default -> this.append(s, 0, s.length());
+        };
     }
 
     private AbstractStringBuilder appendNull() {
@@ -691,8 +687,8 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence
         Preconditions.checkFromToIndex(start, end, s.length(), Preconditions.IOOBE_FORMATTER);
         int len = end - start;
         ensureCapacityInternal(count + len);
-        if (s instanceof String) {
-            appendChars((String)s, start, end);
+        if (s instanceof String string) {
+            appendChars(string, start, end);
         } else {
             appendChars(s, start, end);
         }
@@ -1328,8 +1324,8 @@ abstract sealed class AbstractStringBuilder implements Appendable, CharSequence
         ensureCapacityInternal(count + len);
         shift(dstOffset, len);
         count += len;
-        if (s instanceof String) {
-            putStringAt(dstOffset, (String) s, start, end);
+        if (s instanceof String string) {
+            putStringAt(dstOffset, string, start, end);
         } else {
             putCharsAt(dstOffset, s, start, end);
         }

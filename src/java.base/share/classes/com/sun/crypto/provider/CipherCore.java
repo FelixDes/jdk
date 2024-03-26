@@ -436,15 +436,15 @@ final class CipherCore {
         byte[] ivBytes = null;
         try {
             if (params != null) {
-                if (params instanceof IvParameterSpec) {
-                    ivBytes = ((IvParameterSpec) params).getIV();
+                if (params instanceof IvParameterSpec ivParameterSpec) {
+                    ivBytes = ivParameterSpec.getIV();
                     if ((ivBytes == null) || (ivBytes.length != blockSize)) {
                         throw new InvalidAlgorithmParameterException
                                 ("Wrong IV length: must be " + blockSize +
                                         " bytes long");
                     }
-                } else if (params instanceof RC2ParameterSpec) {
-                    ivBytes = ((RC2ParameterSpec) params).getIV();
+                } else if (params instanceof RC2ParameterSpec rc2ParameterSpec) {
+                    ivBytes = rc2ParameterSpec.getIV();
                     if ((ivBytes != null) && (ivBytes.length != blockSize)) {
                         throw new InvalidAlgorithmParameterException
                                 ("Wrong IV length: must be " + blockSize +
