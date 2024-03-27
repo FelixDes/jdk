@@ -68,20 +68,17 @@ public final class DHKeyFactory extends KeyFactorySpi {
         throws InvalidKeySpecException
     {
         try {
-            if (keySpec instanceof DHPublicKeySpec) {
-                DHPublicKeySpec dhPubKeySpec = (DHPublicKeySpec)keySpec;
-                return new DHPublicKey(dhPubKeySpec.getY(),
-                                       dhPubKeySpec.getP(),
-                                       dhPubKeySpec.getG());
-
-            } else if (keySpec instanceof X509EncodedKeySpec) {
-                return new DHPublicKey
-                    (((X509EncodedKeySpec)keySpec).getEncoded());
-
-            } else {
-                throw new InvalidKeySpecException
-                    ("Inappropriate key specification");
-            }
+            return switch (keySpec) {
+                case DHPublicKeySpec dhPubKeySpec -> new DHPublicKey(
+                        dhPubKeySpec.getY(),
+                        dhPubKeySpec.getP(),
+                        dhPubKeySpec.getG()
+                );
+                case X509EncodedKeySpec x509EncodedKeySpec -> new DHPublicKey(
+                        x509EncodedKeySpec.getEncoded()
+                );
+                case null, default -> throw new InvalidKeySpecException("Inappropriate key specification");
+            };
         } catch (InvalidKeyException e) {
             throw new InvalidKeySpecException
                 ("Inappropriate key specification", e);
@@ -102,14 +99,13 @@ public final class DHKeyFactory extends KeyFactorySpi {
     protected PrivateKey engineGeneratePrivate(KeySpec keySpec)
             throws InvalidKeySpecException {
         try {
-            if (keySpec instanceof DHPrivateKeySpec) {
-                DHPrivateKeySpec dhPrivKeySpec = (DHPrivateKeySpec)keySpec;
+            if (keySpec instanceof DHPrivateKeySpec dhPrivKeySpec) {
                 return new DHPrivateKey(dhPrivKeySpec.getX(),
                                         dhPrivKeySpec.getP(),
                                         dhPrivKeySpec.getG());
 
-            } else if (keySpec instanceof PKCS8EncodedKeySpec) {
-                byte[] encoded = ((PKCS8EncodedKeySpec)keySpec).getEncoded();
+            } else if (keySpec instanceof PKCS8EncodedKeySpec pkcs8EncodedKeySpec) {
+                byte[] encoded = pkcs8EncodedKeySpec.getEncoded();
                 try {
                     return new DHPrivateKey(encoded);
                 } finally {
@@ -146,29 +142,25 @@ public final class DHKeyFactory extends KeyFactorySpi {
         throws InvalidKeySpecException {
         DHParameterSpec params;
 
-        if (key instanceof javax.crypto.interfaces.DHPublicKey) {
+        if (key instanceof javax.crypto.interfaces.DHPublicKey dhPubKey) {
 
             if (keySpec.isAssignableFrom(DHPublicKeySpec.class)) {
-                javax.crypto.interfaces.DHPublicKey dhPubKey
-                    = (javax.crypto.interfaces.DHPublicKey) key;
                 params = dhPubKey.getParams();
                 return keySpec.cast(new DHPublicKeySpec(dhPubKey.getY(),
                                                         params.getP(),
                                                         params.getG()));
 
             } else if (keySpec.isAssignableFrom(X509EncodedKeySpec.class)) {
-                return keySpec.cast(new X509EncodedKeySpec(key.getEncoded()));
+                return keySpec.cast(new X509EncodedKeySpec(dhPubKey.getEncoded()));
 
             } else {
                 throw new InvalidKeySpecException
                     ("Inappropriate key specification");
             }
 
-        } else if (key instanceof javax.crypto.interfaces.DHPrivateKey) {
+        } else if (key instanceof javax.crypto.interfaces.DHPrivateKey dhPrivKey) {
 
             if (keySpec.isAssignableFrom(DHPrivateKeySpec.class)) {
-                javax.crypto.interfaces.DHPrivateKey dhPrivKey
-                    = (javax.crypto.interfaces.DHPrivateKey)key;
                 params = dhPrivKey.getParams();
                 return keySpec.cast(new DHPrivateKeySpec(dhPrivKey.getX(),
                                                          params.getP(),

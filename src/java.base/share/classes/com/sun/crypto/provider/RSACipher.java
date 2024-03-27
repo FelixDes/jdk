@@ -245,24 +245,17 @@ public final class RSACipher extends CipherSpi {
     private void init(int opmode, Key key, SecureRandom random,
             AlgorithmParameterSpec params)
             throws InvalidKeyException, InvalidAlgorithmParameterException {
-        boolean encrypt;
-        switch (opmode) {
-        case Cipher.ENCRYPT_MODE:
-        case Cipher.WRAP_MODE:
-            encrypt = true;
-            break;
-        case Cipher.DECRYPT_MODE:
-        case Cipher.UNWRAP_MODE:
-            encrypt = false;
-            break;
-        default:
-            // should never happen; checked by Cipher.init()
-            throw new AssertionError("Unknown mode: " + opmode);
-        }
+        boolean encrypt = switch (opmode) {
+            case Cipher.ENCRYPT_MODE, Cipher.WRAP_MODE -> true;
+            case Cipher.DECRYPT_MODE, Cipher.UNWRAP_MODE -> false;
+            default ->
+                // should never happen; checked by Cipher.init()
+                    throw new AssertionError("Unknown mode: " + opmode);
+        };
         RSAKey rsaKey = RSAKeyFactory.toRSAKey(key);
-        if (rsaKey instanceof RSAPublicKey) {
+        if (rsaKey instanceof RSAPublicKey rsaPublicKey) {
             mode = encrypt ? MODE_ENCRYPT : MODE_VERIFY;
-            publicKey = (RSAPublicKey)rsaKey;
+            publicKey = rsaPublicKey;
             privateKey = null;
         } else { // must be RSAPrivateKey per check in toRSAKey
             mode = encrypt ? MODE_SIGN : MODE_DECRYPT;

@@ -227,9 +227,7 @@ final class PKCS12PBECipherCore {
         char[] passwdChars = null;
         salt = null;
         iCount = 0;
-        if (key instanceof javax.crypto.interfaces.PBEKey) {
-            javax.crypto.interfaces.PBEKey pbeKey =
-                (javax.crypto.interfaces.PBEKey) key;
+        if (key instanceof javax.crypto.interfaces.PBEKey pbeKey) {
             passwdChars = pbeKey.getPassword();
             salt = pbeKey.getSalt(); // maybe null if unspecified
             iCount = pbeKey.getIterationCount(); // maybe 0 if unspecified

@@ -107,9 +107,7 @@ abstract class PBMAC1Core extends HmacCore {
         char[] passwdChars;
         byte[] salt = null;
         int iCount = 0;
-        if (key instanceof javax.crypto.interfaces.PBEKey) {
-            javax.crypto.interfaces.PBEKey pbeKey =
-                (javax.crypto.interfaces.PBEKey) key;
+        if (key instanceof javax.crypto.interfaces.PBEKey pbeKey) {
             passwdChars = pbeKey.getPassword();
             salt = pbeKey.getSalt(); // maybe null if unspecified
             iCount = pbeKey.getIterationCount(); // maybe 0 if unspecified
