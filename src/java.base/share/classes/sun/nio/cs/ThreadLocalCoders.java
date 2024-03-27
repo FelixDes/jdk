@@ -94,10 +94,10 @@ public class ThreadLocalCoders {
                 return false;
             }
             Object create(Object name) {
-                if (name instanceof Charset)
-                    return ((Charset)name).newDecoder();
-                if (name instanceof String)
-                    return Charset.forName((String)name).newDecoder();
+                if (name instanceof Charset charset)
+                    return charset.newDecoder();
+                if (name instanceof String string)
+                    return Charset.forName(string).newDecoder();
                 assert false;
                 return null;
             }
@@ -118,10 +118,10 @@ public class ThreadLocalCoders {
                 return false;
             }
             Object create(Object name) {
-                if (name instanceof Charset)
-                    return ((Charset)name).newEncoder();
-                if (name instanceof String)
-                    return Charset.forName((String)name).newEncoder();
+                if (name instanceof Charset charset)
+                    return charset.newEncoder();
+                if (name instanceof String string)
+                    return Charset.forName(string).newEncoder();
                 assert false;
                 return null;
             }

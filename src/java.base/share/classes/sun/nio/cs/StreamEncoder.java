@@ -417,8 +417,8 @@ public final class StreamEncoder extends Writer {
     }
 
     String encodingName() {
-        return ((cs instanceof HistoricallyNamedCharset)
-            ? ((HistoricallyNamedCharset)cs).historicalName()
+        return ((cs instanceof HistoricallyNamedCharset historicallyNamedCharset)
+            ? historicallyNamedCharset.historicalName()
             : cs.name());
     }
 }

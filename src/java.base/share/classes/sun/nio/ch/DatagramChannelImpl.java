@@ -1549,8 +1549,7 @@ class DatagramChannelImpl
         MembershipRegistry registry = this.registry;
         if (registry != null) {
             registry.forEach(k -> {
-                if (k instanceof MembershipKeyImpl.Type6) {
-                    MembershipKeyImpl.Type6 key6 = (MembershipKeyImpl.Type6) k;
+                if (k instanceof MembershipKeyImpl.Type6 key6) {
                     Net.join6(fd, key6.groupAddress(), key6.index(), key6.source());
                 } else {
                     MembershipKeyImpl.Type4 key4 = (MembershipKeyImpl.Type4) k;
@@ -1713,9 +1712,7 @@ class DatagramChannelImpl
                 return;
 
             try {
-                if (key instanceof MembershipKeyImpl.Type6) {
-                    MembershipKeyImpl.Type6 key6 =
-                        (MembershipKeyImpl.Type6)key;
+                if (key instanceof MembershipKeyImpl.Type6 key6) {
                     Net.drop6(fd, key6.groupAddress(), key6.index(), key6.source());
                 } else {
                     MembershipKeyImpl.Type4 key4 = (MembershipKeyImpl.Type4)key;
@@ -1768,9 +1765,7 @@ class DatagramChannelImpl
                 throw new IllegalArgumentException("Source address is different type to group");
 
             int n;
-            if (key instanceof MembershipKeyImpl.Type6) {
-                 MembershipKeyImpl.Type6 key6 =
-                    (MembershipKeyImpl.Type6)key;
+            if (key instanceof MembershipKeyImpl.Type6 key6) {
                 n = Net.block6(fd, key6.groupAddress(), key6.index(),
                                Net.inet6AsByteArray(source));
             } else {
@@ -1798,9 +1793,7 @@ class DatagramChannelImpl
                 throw new IllegalStateException("key is no longer valid");
 
             try {
-                if (key instanceof MembershipKeyImpl.Type6) {
-                    MembershipKeyImpl.Type6 key6 =
-                        (MembershipKeyImpl.Type6)key;
+                if (key instanceof MembershipKeyImpl.Type6 key6) {
                     Net.unblock6(fd, key6.groupAddress(), key6.index(),
                                  Net.inet6AsByteArray(source));
                 } else {

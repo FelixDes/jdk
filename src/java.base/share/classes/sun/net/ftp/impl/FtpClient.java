@@ -1691,8 +1691,8 @@ public class FtpClient extends sun.net.ftp.FtpClient {
         issueCommandCheck("REIN");
         loggedIn = false;
         if (useCrypto) {
-            if (server instanceof SSLSocket) {
-                javax.net.ssl.SSLSession session = ((SSLSocket) server).getSession();
+            if (server instanceof SSLSocket sslSocket) {
+                javax.net.ssl.SSLSession session = sslSocket.getSession();
                 session.invalidate();
                 // Restore previous socket and streams
                 server = oldSocket;

@@ -65,8 +65,8 @@ abstract class AbstractUserDefinedFileAttributeView
         throws IOException
     {
         ByteBuffer bb;
-        if (value instanceof byte[]) {
-            bb = ByteBuffer.wrap((byte[])value);
+        if (value instanceof byte[] bytes) {
+            bb = ByteBuffer.wrap(bytes);
         } else {
             bb = (ByteBuffer)value;
         }

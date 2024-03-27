@@ -84,8 +84,7 @@ public final class ECKeyFactory extends KeyFactorySpi {
      * To be used by future Java ECDSA and ECDH implementations.
      */
     public static ECKey toECKey(Key key) throws InvalidKeyException {
-        if (key instanceof ECKey) {
-            ECKey ecKey = (ECKey)key;
+        if (key instanceof ECKey ecKey) {
             checkKey(ecKey);
             return ecKey;
         } else {
@@ -136,10 +135,10 @@ public final class ECKeyFactory extends KeyFactorySpi {
         if (keyAlg.equals("EC") == false) {
             throw new InvalidKeyException("Not an EC key: " + keyAlg);
         }
-        if (key instanceof PublicKey) {
-            return implTranslatePublicKey((PublicKey)key);
-        } else if (key instanceof PrivateKey) {
-            return implTranslatePrivateKey((PrivateKey)key);
+        if (key instanceof PublicKey publicKey) {
+            return implTranslatePublicKey(publicKey);
+        } else if (key instanceof PrivateKey privateKey) {
+            return implTranslatePrivateKey(privateKey);
         } else {
             throw new InvalidKeyException("Neither a public nor a private key");
         }
@@ -172,11 +171,10 @@ public final class ECKeyFactory extends KeyFactorySpi {
     // internal implementation of translateKey() for public keys. See JCA doc
     private PublicKey implTranslatePublicKey(PublicKey key)
             throws InvalidKeyException {
-        if (key instanceof ECPublicKey) {
+        if (key instanceof ECPublicKey ecKey) {
             if (key instanceof ECPublicKeyImpl) {
                 return key;
             }
-            ECPublicKey ecKey = (ECPublicKey)key;
             return new ECPublicKeyImpl(
                 ecKey.getW(),
                 ecKey.getParams()
@@ -193,11 +191,10 @@ public final class ECKeyFactory extends KeyFactorySpi {
     // internal implementation of translateKey() for private keys. See JCA doc
     private PrivateKey implTranslatePrivateKey(PrivateKey key)
             throws InvalidKeyException {
-        if (key instanceof ECPrivateKey) {
+        if (key instanceof ECPrivateKey ecKey) {
             if (key instanceof ECPrivateKeyImpl) {
                 return key;
             }
-            ECPrivateKey ecKey = (ECPrivateKey)key;
             return new ECPrivateKeyImpl(
                 ecKey.getS(),
                 ecKey.getParams()

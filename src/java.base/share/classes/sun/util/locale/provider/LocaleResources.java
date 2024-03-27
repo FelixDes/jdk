@@ -570,8 +570,8 @@ public class LocaleResources {
      */
     public ResourceBundle getJavaTimeFormatData() {
         ResourceBundle rb = localeData.getDateFormatData(locale);
-        if (rb instanceof ParallelListResourceBundle) {
-            localeData.setSupplementary((ParallelListResourceBundle) rb);
+        if (rb instanceof ParallelListResourceBundle prb) {
+            localeData.setSupplementary(prb);
         }
         return rb;
     }

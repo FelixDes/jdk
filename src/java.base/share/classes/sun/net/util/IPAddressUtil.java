@@ -400,9 +400,9 @@ public class IPAddressUtil {
     private static InetAddress findScopedAddress(InetAddress address) {
         PrivilegedExceptionAction<List<InetAddress>> pa = () -> NetworkInterface.networkInterfaces()
                 .flatMap(NetworkInterface::inetAddresses)
-                .filter(a -> (a instanceof Inet6Address)
+                .filter(a -> (a instanceof Inet6Address inet6Address)
                         && address.equals(a)
-                        && ((Inet6Address) a).getScopeId() != 0)
+                        && inet6Address.getScopeId() != 0)
                 .toList();
         List<InetAddress> result;
         try {

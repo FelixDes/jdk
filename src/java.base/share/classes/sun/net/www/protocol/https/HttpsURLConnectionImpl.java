@@ -461,8 +461,8 @@ public class HttpsURLConnectionImpl
     }
 
     public boolean equals(Object obj) {
-        return this == obj || ((obj instanceof HttpsURLConnectionImpl) &&
-            delegate.equals(((HttpsURLConnectionImpl)obj).delegate));
+        return this == obj || ((obj instanceof HttpsURLConnectionImpl httpsURLConnection) &&
+            delegate.equals(httpsURLConnection.delegate));
     }
 
     public int hashCode() {

@@ -420,8 +420,8 @@ public class StreamDecoder extends Reader {
     }
 
     String encodingName() {
-        return ((cs instanceof HistoricallyNamedCharset)
-            ? ((HistoricallyNamedCharset)cs).historicalName()
+        return ((cs instanceof HistoricallyNamedCharset historicallyNamedCharset)
+            ? historicallyNamedCharset.historicalName()
             : cs.name());
     }
 

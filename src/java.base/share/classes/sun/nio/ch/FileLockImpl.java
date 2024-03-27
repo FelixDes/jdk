@@ -57,10 +57,10 @@ public class FileLockImpl
         if (!ch.isOpen())
             throw new ClosedChannelException();
         if (isValid()) {
-            if (ch instanceof FileChannelImpl)
-                ((FileChannelImpl)ch).release(this);
-            else if (ch instanceof AsynchronousFileChannelImpl)
-                ((AsynchronousFileChannelImpl)ch).release(this);
+            if (ch instanceof FileChannelImpl fileChannel)
+                fileChannel.release(this);
+            else if (ch instanceof AsynchronousFileChannelImpl asynchronousFileChannel)
+                asynchronousFileChannel.release(this);
             else throw new AssertionError();
             invalidate();
         }

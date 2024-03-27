@@ -64,17 +64,14 @@ public class XDHKeyFactory extends KeyFactorySpi {
             throw new InvalidKeyException("Key must not be null");
         }
 
-        if (key instanceof XECKey) {
-            XECKey xecKey = (XECKey) key;
+        if (key instanceof XECKey xecKey) {
             XECParameters params = XECParameters.get(InvalidKeyException::new,
                 xecKey.getParams());
             checkLockedParams(InvalidKeyException::new, params);
 
-            if (xecKey instanceof XECPublicKey) {
-                XECPublicKey publicKey = (XECPublicKey) xecKey;
+            if (xecKey instanceof XECPublicKey publicKey) {
                 return new XDHPublicKeyImpl(params, publicKey.getU());
-            } else if (xecKey instanceof XECPrivateKey) {
-                XECPrivateKey privateKey = (XECPrivateKey) xecKey;
+            } else if (xecKey instanceof XECPrivateKey privateKey) {
                 byte[] scalar = privateKey.getScalar().orElseThrow(
                     () -> new InvalidKeyException("No private key data"));
                 return new XDHPrivateKeyImpl(params, scalar);
@@ -147,15 +144,13 @@ public class XDHKeyFactory extends KeyFactorySpi {
     private PublicKey generatePublicImpl(KeySpec keySpec)
         throws InvalidKeyException, InvalidKeySpecException {
 
-        if (keySpec instanceof X509EncodedKeySpec) {
-            X509EncodedKeySpec x509Spec = (X509EncodedKeySpec) keySpec;
+        if (keySpec instanceof X509EncodedKeySpec x509Spec) {
             XDHPublicKeyImpl result =
                 new XDHPublicKeyImpl(x509Spec.getEncoded());
             checkLockedParams(InvalidKeySpecException::new,
                 result.getParams());
             return result;
-        } else if (keySpec instanceof XECPublicKeySpec) {
-            XECPublicKeySpec publicKeySpec = (XECPublicKeySpec) keySpec;
+        } else if (keySpec instanceof XECPublicKeySpec publicKeySpec) {
             XECParameters params = XECParameters.get(
                 InvalidKeySpecException::new, publicKeySpec.getParams());
             checkLockedParams(InvalidKeySpecException::new, params);
@@ -169,8 +164,7 @@ public class XDHKeyFactory extends KeyFactorySpi {
     private PrivateKey generatePrivateImpl(KeySpec keySpec)
         throws InvalidKeyException, InvalidKeySpecException {
 
-        if (keySpec instanceof PKCS8EncodedKeySpec) {
-            PKCS8EncodedKeySpec pkcsSpec = (PKCS8EncodedKeySpec) keySpec;
+        if (keySpec instanceof PKCS8EncodedKeySpec pkcsSpec) {
             byte[] encoded = pkcsSpec.getEncoded();
             try {
                 XDHPrivateKeyImpl result = new XDHPrivateKeyImpl(encoded);
@@ -180,8 +174,7 @@ public class XDHKeyFactory extends KeyFactorySpi {
             } finally {
                 Arrays.fill(encoded, (byte) 0);
             }
-        } else if (keySpec instanceof XECPrivateKeySpec) {
-            XECPrivateKeySpec privateKeySpec = (XECPrivateKeySpec) keySpec;
+        } else if (keySpec instanceof XECPrivateKeySpec privateKeySpec) {
             XECParameters params = XECParameters.get(
                 InvalidKeySpecException::new, privateKeySpec.getParams());
             checkLockedParams(InvalidKeySpecException::new, params);
@@ -200,9 +193,9 @@ public class XDHKeyFactory extends KeyFactorySpi {
     protected <T extends KeySpec> T engineGetKeySpec(Key key, Class<T> keySpec)
             throws InvalidKeySpecException {
 
-        if (key instanceof XECPublicKey) {
+        if (key instanceof XECPublicKey xecPublicKey) {
             checkLockedParams(InvalidKeySpecException::new,
-                ((XECPublicKey) key).getParams());
+                    xecPublicKey.getParams());
 
             if (keySpec.isAssignableFrom(X509EncodedKeySpec.class)) {
                 if (!key.getFormat().equals("X.509")) {
@@ -210,16 +203,15 @@ public class XDHKeyFactory extends KeyFactorySpi {
                 }
                 return keySpec.cast(new X509EncodedKeySpec(key.getEncoded()));
             } else if (keySpec.isAssignableFrom(XECPublicKeySpec.class)) {
-                XECPublicKey xecKey = (XECPublicKey) key;
                 return keySpec.cast(
-                    new XECPublicKeySpec(xecKey.getParams(), xecKey.getU()));
+                    new XECPublicKeySpec(xecPublicKey.getParams(), xecPublicKey.getU()));
             } else {
                 throw new InvalidKeySpecException(
                     "KeySpec must be X509EncodedKeySpec or XECPublicKeySpec");
             }
-        } else if (key instanceof XECPrivateKey) {
+        } else if (key instanceof XECPrivateKey xecPrivateKey) {
             checkLockedParams(InvalidKeySpecException::new,
-                ((XECPrivateKey) key).getParams());
+                    xecPrivateKey.getParams());
 
             if (keySpec.isAssignableFrom(PKCS8EncodedKeySpec.class)) {
                 if (!key.getFormat().equals("PKCS#8")) {
@@ -232,13 +224,12 @@ public class XDHKeyFactory extends KeyFactorySpi {
                     Arrays.fill(encoded, (byte)0);
                 }
             } else if (keySpec.isAssignableFrom(XECPrivateKeySpec.class)) {
-                XECPrivateKey xecKey = (XECPrivateKey) key;
-                byte[] scalar = xecKey.getScalar().orElseThrow(
+                byte[] scalar = xecPrivateKey.getScalar().orElseThrow(
                     () -> new InvalidKeySpecException("No private key value")
                 );
                 try {
                     return keySpec.cast(
-                            new XECPrivateKeySpec(xecKey.getParams(), scalar));
+                            new XECPrivateKeySpec(xecPrivateKey.getParams(), scalar));
                 } finally {
                     Arrays.fill(scalar, (byte)0);
                 }
