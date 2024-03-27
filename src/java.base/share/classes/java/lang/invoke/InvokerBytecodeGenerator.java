@@ -364,20 +364,20 @@ class InvokerBytecodeGenerator {
             mv.visitInsn(Opcodes.ACONST_NULL);
             return;
         }
-        if (con instanceof Integer) {
-            emitIconstInsn((int) con);
+        if (con instanceof Integer iCon) {
+            emitIconstInsn(iCon);
             return;
         }
-        if (con instanceof Byte) {
-            emitIconstInsn((byte)con);
+        if (con instanceof Byte bCon) {
+            emitIconstInsn(bCon);
             return;
         }
-        if (con instanceof Short) {
-            emitIconstInsn((short)con);
+        if (con instanceof Short sCon) {
+            emitIconstInsn(sCon);
             return;
         }
-        if (con instanceof Character) {
-            emitIconstInsn((char)con);
+        if (con instanceof Character cCon) {
+            emitIconstInsn(cCon);
             return;
         }
         if (con instanceof Long) {
@@ -419,8 +419,8 @@ class InvokerBytecodeGenerator {
                 return;
             }
         }
-        if (con instanceof Boolean) {
-            emitIconstInsn((boolean) con ? 1 : 0);
+        if (con instanceof Boolean bCon) {
+            emitIconstInsn(bCon ? 1 : 0);
             return;
         }
         // fall through:

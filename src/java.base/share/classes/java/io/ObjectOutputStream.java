@@ -1133,11 +1133,11 @@ public class ObjectOutputStream
             } else if (!unshared && (h = handles.lookup(obj)) != -1) {
                 writeHandle(h);
                 return;
-            } else if (obj instanceof Class) {
-                writeClass((Class) obj, unshared);
+            } else if (obj instanceof Class<?> classObj) {
+                writeClass(classObj, unshared);
                 return;
-            } else if (obj instanceof ObjectStreamClass) {
-                writeClassDesc((ObjectStreamClass) obj, unshared);
+            } else if (obj instanceof ObjectStreamClass objectStreamClass) {
+                writeClassDesc(objectStreamClass, unshared);
                 return;
             }
 
@@ -1175,22 +1175,22 @@ public class ObjectOutputStream
                 } else if (!unshared && (h = handles.lookup(obj)) != -1) {
                     writeHandle(h);
                     return;
-                } else if (obj instanceof Class) {
-                    writeClass((Class) obj, unshared);
+                } else if (obj instanceof Class<?> classObj) {
+                    writeClass(classObj, unshared);
                     return;
-                } else if (obj instanceof ObjectStreamClass) {
-                    writeClassDesc((ObjectStreamClass) obj, unshared);
+                } else if (obj instanceof ObjectStreamClass objectStreamClass) {
+                    writeClassDesc(objectStreamClass, unshared);
                     return;
                 }
             }
 
             // remaining cases
-            if (obj instanceof String) {
-                writeString((String) obj, unshared);
+            if (obj instanceof String string) {
+                writeString(string, unshared);
             } else if (cl.isArray()) {
                 writeArray(obj, desc, unshared);
-            } else if (obj instanceof Enum) {
-                writeEnum((Enum<?>) obj, desc, unshared);
+            } else if (obj instanceof Enum<?> enumObj) {
+                writeEnum(enumObj, desc, unshared);
             } else if (obj instanceof Serializable) {
                 writeOrdinaryObject(obj, desc, unshared);
             } else {

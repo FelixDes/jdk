@@ -204,10 +204,10 @@ class FileTreeWalker implements Closeable {
     {
         // if attributes are cached then use them if possible
         if (canUseCached &&
-            (file instanceof BasicFileAttributesHolder) &&
+            (file instanceof BasicFileAttributesHolder basicFileAttributesHolder) &&
             (System.getSecurityManager() == null))
         {
-            BasicFileAttributes cached = ((BasicFileAttributesHolder)file).get();
+            BasicFileAttributes cached = basicFileAttributesHolder.get();
             if (cached != null && (!followLinks || !cached.isSymbolicLink())) {
                 return cached;
             }

@@ -1716,8 +1716,8 @@ public final class Module implements AnnotatedElement {
         // special-case built-in class loaders to avoid URL connection
         if (loader == null) {
             return BootLoader.findResourceAsStream(mn, name);
-        } else if (loader instanceof BuiltinClassLoader) {
-            return ((BuiltinClassLoader) loader).findResourceAsStream(mn, name);
+        } else if (loader instanceof BuiltinClassLoader builtinClassLoader) {
+            return builtinClassLoader.findResourceAsStream(mn, name);
         }
 
         // locate resource in module

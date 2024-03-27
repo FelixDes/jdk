@@ -1966,13 +1966,13 @@ public final class String
      */
     public boolean contentEquals(CharSequence cs) {
         // Argument is a StringBuffer, StringBuilder
-        if (cs instanceof AbstractStringBuilder) {
+        if (cs instanceof AbstractStringBuilder abstractStringBuilder) {
             if (cs instanceof StringBuffer) {
                 synchronized(cs) {
-                   return nonSyncContentEquals((AbstractStringBuilder)cs);
+                   return nonSyncContentEquals(abstractStringBuilder);
                 }
             } else {
-                return nonSyncContentEquals((AbstractStringBuilder)cs);
+                return nonSyncContentEquals(abstractStringBuilder);
             }
         }
         // Argument is a String

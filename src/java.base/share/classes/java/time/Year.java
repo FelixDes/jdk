@@ -250,8 +250,8 @@ public final class Year
      * @throws DateTimeException if unable to convert to a {@code Year}
      */
     public static Year from(TemporalAccessor temporal) {
-        if (temporal instanceof Year) {
-            return (Year) temporal;
+        if (temporal instanceof Year year) {
+            return year;
         }
         Objects.requireNonNull(temporal, "temporal");
         try {

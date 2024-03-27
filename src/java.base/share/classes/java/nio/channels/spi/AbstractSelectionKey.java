@@ -81,9 +81,9 @@ public abstract class AbstractSelectionKey
         boolean changed = (boolean) INVALID.compareAndSet(this, false, true);
         if (changed) {
             Selector sel = selector();
-            if (sel instanceof SelectorImpl) {
+            if (sel instanceof SelectorImpl selectorImpl) {
                 // queue cancelled key directly
-                ((SelectorImpl) sel).cancel((SelectionKeyImpl) this);
+                selectorImpl.cancel((SelectionKeyImpl) this);
             } else {
                 ((AbstractSelector) sel).cancel(this);
             }

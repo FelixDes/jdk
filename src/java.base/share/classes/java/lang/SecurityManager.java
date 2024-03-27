@@ -444,8 +444,8 @@ public class SecurityManager {
      */
     @SuppressWarnings("removal")
     public void checkPermission(Permission perm, Object context) {
-        if (context instanceof AccessControlContext) {
-            ((AccessControlContext)context).checkPermission(perm);
+        if (context instanceof AccessControlContext accessControlContext) {
+            accessControlContext.checkPermission(perm);
         } else {
             throw new SecurityException();
         }

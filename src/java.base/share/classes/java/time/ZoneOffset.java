@@ -740,8 +740,8 @@ public final class ZoneOffset
         if (this == obj) {
            return true;
         }
-        if (obj instanceof ZoneOffset) {
-            return totalSeconds == ((ZoneOffset) obj).totalSeconds;
+        if (obj instanceof ZoneOffset zoneOffset) {
+            return totalSeconds == zoneOffset.totalSeconds;
         }
         return false;
     }

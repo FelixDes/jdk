@@ -2001,8 +2001,8 @@ public abstract class ClassLoader {
                 Throwable cause = e;
                 if (e instanceof InvocationTargetException) {
                     cause = e.getCause();
-                    if (cause instanceof Error) {
-                        throw (Error) cause;
+                    if (cause instanceof Error error) {
+                        throw error;
                     }
                 }
                 if (cause instanceof RuntimeException) {
@@ -2110,8 +2110,8 @@ public abstract class ClassLoader {
 
         // check if Package object is already defined
         NamedPackage pkg = packages.get(name);
-        if (pkg instanceof Package)
-            return (Package)pkg;
+        if (pkg instanceof Package pkgObj)
+            return pkgObj;
 
         return (Package)packages.compute(name, (n, p) -> toPackage(n, p, m));
     }
@@ -2125,8 +2125,8 @@ public abstract class ClassLoader {
             return NamedPackage.toPackage(name, m);
 
         // otherwise, replace the NamedPackage object with Package object
-        if (p instanceof Package)
-            return (Package)p;
+        if (p instanceof Package pkgObj)
+            return pkgObj;
 
         return NamedPackage.toPackage(p.packageName(), p.module());
     }

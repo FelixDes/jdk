@@ -254,8 +254,8 @@ public abstract sealed class Reference<T>
             pendingList = ref.discovered;
             ref.discovered = null;
 
-            if (ref instanceof Cleaner) {
-                ((Cleaner)ref).clean();
+            if (ref instanceof Cleaner cleaner) {
+                cleaner.clean();
                 // Notify any waiters that progress has been made.
                 // This improves latency for nio.Bits waiters, which
                 // are the only important ones.

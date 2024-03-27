@@ -109,8 +109,8 @@ public interface SocketOptions {
      * it will return java.lang.Boolean.FALSE:
      * <PRE>
      * Object o = s.getOption(SO_LINGER);
-     * if (o instanceof Integer) {
-     *     System.out.print("Linger time is " + ((Integer)o).intValue());
+     * if (o instanceof Integer i) {
+     *     System.out.print("Linger time is " + i.intValue());
      * } else {
      *   // the true type of o is java.lang.Boolean.FALSE;
      * }

@@ -368,8 +368,8 @@ public final class ZonedDateTime
     public static ZonedDateTime ofLocal(LocalDateTime localDateTime, ZoneId zone, ZoneOffset preferredOffset) {
         Objects.requireNonNull(localDateTime, "localDateTime");
         Objects.requireNonNull(zone, "zone");
-        if (zone instanceof ZoneOffset) {
-            return new ZonedDateTime(localDateTime, (ZoneOffset) zone, zone);
+        if (zone instanceof ZoneOffset zoneOffset) {
+            return new ZonedDateTime(localDateTime, zoneOffset, zone);
         }
         ZoneRules rules = zone.getRules();
         List<ZoneOffset> validOffsets = rules.getValidOffsets(localDateTime);
@@ -549,7 +549,7 @@ public final class ZonedDateTime
      * @throws DateTimeException if unable to convert to an {@code ZonedDateTime}
      */
     public static ZonedDateTime from(TemporalAccessor temporal) {
-        if (temporal instanceof ZonedDateTime) {
+        if (temporal instanceof ZonedDateTime z) {
             return (ZonedDateTime) temporal;
         }
         try {

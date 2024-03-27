@@ -3291,8 +3291,8 @@ public final class Files {
     public static byte[] readAllBytes(Path path) throws IOException {
         try (SeekableByteChannel sbc = Files.newByteChannel(path);
              InputStream in = Channels.newInputStream(sbc)) {
-            if (sbc instanceof FileChannelImpl)
-                ((FileChannelImpl) sbc).setUninterruptible();
+            if (sbc instanceof FileChannelImpl fileChannel)
+                fileChannel.setUninterruptible();
             long size = sbc.size();
             if (size > (long) Integer.MAX_VALUE)
                 throw new OutOfMemoryError("Required array size too large");

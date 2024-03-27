@@ -235,8 +235,8 @@ final class Resolver {
             ModuleDescriptor descriptor = mref.descriptor();
 
             boolean candidate;
-            if (!bindIncubatorModules && (mref instanceof ModuleReferenceImpl)) {
-                ModuleResolution mres = ((ModuleReferenceImpl) mref).moduleResolution();
+            if (!bindIncubatorModules && (mref instanceof ModuleReferenceImpl moduleReferenceImpl)) {
+                ModuleResolution mres = moduleReferenceImpl.moduleResolution();
                 candidate = (mres == null) || (mres.hasIncubatingWarning() == false);
             } else {
                 candidate = true;
@@ -341,8 +341,8 @@ final class Resolver {
     private void addFoundModule(ModuleReference mref) {
         String mn = mref.descriptor().name();
 
-        if (mref instanceof ModuleReferenceImpl) {
-            ModuleTarget target = ((ModuleReferenceImpl)mref).moduleTarget();
+        if (mref instanceof ModuleReferenceImpl moduleReferenceImpl) {
+            ModuleTarget target = moduleReferenceImpl.moduleTarget();
             if (target != null)
                 checkTargetPlatform(mn, target);
         }

@@ -521,12 +521,12 @@ public final class CompactNumberFormat extends NumberFormat {
                 && ((BigInteger) number).bitLength() < 64)) {
             return format(((Number) number).longValue(), toAppendTo,
                     fieldPosition);
-        } else if (number instanceof BigDecimal) {
-            return format((BigDecimal) number, toAppendTo, fieldPosition);
-        } else if (number instanceof BigInteger) {
-            return format((BigInteger) number, toAppendTo, fieldPosition);
-        } else if (number instanceof Number) {
-            return format(((Number) number).doubleValue(), toAppendTo, fieldPosition);
+        } else if (number instanceof BigDecimal bigDecimal) {
+            return format(bigDecimal, toAppendTo, fieldPosition);
+        } else if (number instanceof BigInteger bigInteger) {
+            return format(bigInteger, toAppendTo, fieldPosition);
+        } else if (number instanceof Number n) {
+            return format(n.doubleValue(), toAppendTo, fieldPosition);
         } else {
             throw new IllegalArgumentException("Cannot format "
                     + number.getClass().getName() + " as a number");
@@ -1111,10 +1111,10 @@ public final class CompactNumberFormat extends NumberFormat {
                 || obj instanceof Short || obj instanceof Byte
                 || obj instanceof AtomicInteger || obj instanceof AtomicLong) {
             format(((Number) obj).longValue(), sb, delegate);
-        } else if (obj instanceof BigDecimal) {
-            format((BigDecimal) obj, sb, delegate);
-        } else if (obj instanceof BigInteger) {
-            format((BigInteger) obj, sb, delegate, false);
+        } else if (obj instanceof BigDecimal bigDecimal) {
+            format(bigDecimal, sb, delegate);
+        } else if (obj instanceof BigInteger bigInteger) {
+            format(bigInteger, sb, delegate, false);
         } else if (obj == null) {
             throw new NullPointerException(
                     "formatToCharacterIterator must be passed non-null object");
@@ -1804,8 +1804,7 @@ public final class CompactNumberFormat extends NumberFormat {
         } else {
             if (cnfMultiplier.longValue() != 1L) {
                 Number result;
-                if ((cnfMultiplier instanceof Long) && !gotLongMin) {
-                    long longMultiplier = (long) cnfMultiplier;
+                if ((cnfMultiplier instanceof Long longMultiplier) && !gotLongMin) {
                     try {
                         result = Math.multiplyExact(number.longValue(),
                                 longMultiplier);

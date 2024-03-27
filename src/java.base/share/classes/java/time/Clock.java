@@ -615,8 +615,8 @@ public abstract class Clock implements InstantSource {
         }
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof SystemClock) {
-                return zone.equals(((SystemClock) obj).zone);
+            if (obj instanceof SystemClock systemClock) {
+                return zone.equals(systemClock.zone);
             }
             return false;
         }

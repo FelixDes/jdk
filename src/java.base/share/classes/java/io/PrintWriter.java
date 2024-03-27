@@ -170,8 +170,8 @@ public class PrintWriter extends Writer {
         this(new BufferedWriter(new OutputStreamWriter(out, charset)), autoFlush);
 
         // save print stream for error propagation
-        if (out instanceof java.io.PrintStream) {
-            psOut = (PrintStream) out;
+        if (out instanceof java.io.PrintStream printStream) {
+            psOut = printStream;
         }
     }
 

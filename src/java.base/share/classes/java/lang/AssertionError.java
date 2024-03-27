@@ -74,8 +74,8 @@ public class AssertionError extends Error {
     @SuppressWarnings("this-escape")
     public AssertionError(Object detailMessage) {
         this(String.valueOf(detailMessage));
-        if (detailMessage instanceof Throwable)
-            initCause((Throwable) detailMessage);
+        if (detailMessage instanceof Throwable throwableDetailMessage)
+            initCause(throwableDetailMessage);
     }
 
     /**

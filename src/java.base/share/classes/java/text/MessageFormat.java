@@ -1513,8 +1513,8 @@ public class MessageFormat extends Format {
                     // format a Date if can
                     subFormatter = DateFormat.getDateTimeInstance(
                              DateFormat.SHORT, DateFormat.SHORT, locale);//fix
-                } else if (obj instanceof String) {
-                    arg = (String) obj;
+                } else if (obj instanceof String str) {
+                    arg = str;
 
                 } else {
                     arg = obj.toString();

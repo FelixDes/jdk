@@ -130,15 +130,17 @@ final class InfoFromMemberName implements MethodHandleInfo {
     }
 
     private static MemberName convertToMemberName(byte refKind, Member mem) throws IllegalAccessException {
-        if (mem instanceof Method mth) {
-            boolean wantSpecial = (refKind == REF_invokeSpecial);
-            return new MemberName(mth, wantSpecial);
-        } else if (mem instanceof Constructor<?> ctor) {
-            return new MemberName(ctor);
-        } else if (mem instanceof Field) {
-            boolean isSetter = (refKind == REF_putField || refKind == REF_putStatic);
-            return new MemberName((Field) mem, isSetter);
-        }
-        throw new InternalError(mem.getClass().getName());
+        return switch (mem) {
+            case Method mth -> {
+                boolean wantSpecial = (refKind == REF_invokeSpecial);
+                yield  new MemberName(mth, wantSpecial);
+            }
+            case Constructor<?> ctor -> new MemberName(ctor);
+            case Field field -> {
+                boolean isSetter = (refKind == REF_putField || refKind == REF_putStatic);
+                yield new MemberName(field, isSetter);
+            }
+            default -> throw new InternalError(mem.getClass().getName());
+        };
     }
 }
