@@ -1767,10 +1767,9 @@ public class Cipher {
         checkOpmode(opmode);
 
         // Check key usage if the certificate is of type X.509.
-        if (certificate instanceof java.security.cert.X509Certificate) {
+        if (certificate instanceof java.security.cert.X509Certificate cert) {
             // Check whether the cert has a key usage extension
             // marked as a critical extension.
-            X509Certificate cert = (X509Certificate)certificate;
             Set<String> critSet = cert.getCriticalExtensionOIDs();
 
             if (critSet != null && !critSet.isEmpty()

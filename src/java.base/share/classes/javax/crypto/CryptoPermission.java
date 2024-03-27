@@ -361,12 +361,10 @@ class CryptoPermission extends java.security.Permission {
         StringBuilder buf = new StringBuilder(100);
         buf.append("(CryptoPermission " + alg + " " + maxKeySize);
         if (algParamSpec != null) {
-            if (algParamSpec instanceof RC2ParameterSpec) {
-                buf.append(" , effective " +
-                    ((RC2ParameterSpec)algParamSpec).getEffectiveKeyBits());
-            } else if (algParamSpec instanceof RC5ParameterSpec) {
-                buf.append(" , rounds " +
-                    ((RC5ParameterSpec)algParamSpec).getRounds());
+            if (algParamSpec instanceof RC2ParameterSpec rc2ParameterSpec) {
+                buf.append(" , effective " + rc2ParameterSpec.getEffectiveKeyBits());
+            } else if (algParamSpec instanceof RC5ParameterSpec rc5ParameterSpec) {
+                buf.append(" , rounds " + rc5ParameterSpec.getRounds());
             }
         }
         if (exemptionMechanism != null) { // OPTIONAL
@@ -401,23 +399,23 @@ class CryptoPermission extends java.security.Permission {
                 return false;
             }
 
-            if (algParamSpec instanceof RC2ParameterSpec) {
-                if (((RC2ParameterSpec)algParamSpec).getEffectiveKeyBits() <=
+            if (algParamSpec instanceof RC2ParameterSpec rc2ParameterSpec) {
+                if (rc2ParameterSpec.getEffectiveKeyBits() <=
                     ((RC2ParameterSpec)
                      (this.algParamSpec)).getEffectiveKeyBits()) {
                     return true;
                 }
             }
 
-            if (algParamSpec instanceof RC5ParameterSpec) {
-                if (((RC5ParameterSpec)algParamSpec).getRounds() <=
+            if (algParamSpec instanceof RC5ParameterSpec rc5ParameterSpec) {
+                if (rc5ParameterSpec.getRounds() <=
                     ((RC5ParameterSpec)this.algParamSpec).getRounds()) {
                     return true;
                 }
             }
 
-            if (algParamSpec instanceof PBEParameterSpec) {
-                if (((PBEParameterSpec)algParamSpec).getIterationCount() <=
+            if (algParamSpec instanceof PBEParameterSpec pbeParameterSpec) {
+                if (pbeParameterSpec.getIterationCount() <=
                     ((PBEParameterSpec)this.algParamSpec).getIterationCount()) {
                     return true;
                 }
